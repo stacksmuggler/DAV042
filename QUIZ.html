@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Class X IT 402 - Digital Documentation MCQ</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background: #ffffff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h3 {
+        text-align: center;
+        color: #1a237e;
+    }
+    .question {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    .options label {
+        display: block;
+        padding: 8px;
+        margin-bottom: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .correct {
+        background-color: #c8e6c9;
+        border-color: green;
+    }
+    .wrong {
+        background-color: #ffcdd2;
+        border-color: red;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 10px 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    #scoreBox {
+        font-size: 22px;
+        text-align: center;
+        color: green;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>DAV PUBLIC SCHOOL MATHURAPUR</h1>
+    <h3>Class X – IT (402) | Digital Documentation</h3>
+
+    <div id="quizBox">
+        <div class="question" id="questionText"></div>
+        <div class="options" id="optionsBox"></div>
+
+        <button onclick="prevQuestion()">⬅ Back</button>
+        <button onclick="nextQuestion()">Next ➡</button>
+    </div>
+
+    <div id="scoreBox"></div>
+</div>
+
+<script>
+const questions = [
+ {q:"Default file extension of Writer document?", o:[".doc",".pdf",".odt",".txt"], a:2},
+ {q:"Shortcut for Save?", o:["Ctrl+N","Ctrl+S","Ctrl+P","Ctrl+A"], a:1},
+ {q:"Which aligns text both sides?", o:["Left","Right","Center","Justify"], a:3},
+ {q:"Tool for spelling errors?", o:["Grammar","Spell Check","AutoCorrect","Thesaurus"], a:1},
+ {q:"Shortcut for Copy?", o:["Ctrl+X","Ctrl+V","Ctrl+C","Ctrl+Z"], a:2},
+ {q:"Insert page number from?", o:["Format","Insert","View","Tools"], a:1},
+ {q:"Auto correction feature?", o:["Find","Spell","AutoCorrect","Replace"], a:2},
+ {q:"Shortcut Select All?", o:["Ctrl+S","Ctrl+A","Ctrl+P","Ctrl+Z"], a:1},
+ {q:"Best format for sharing?", o:[".doc",".odt",".pdf",".txt"], a:2},
+ {q:"Track user edits?", o:["AutoCorrect","Track Changes","Spell","Find"], a:1},
+ {q:"Insert table from?", o:["View","Insert","Tools","Edit"], a:1},
+ {q:"Find tool used for?", o:["Delete","Search","Format","Save"], a:1},
+ {q:"Preview before printing?", o:["Draft","Web","Print Preview","Outline"], a:2},
+ {q:"Bold shortcut?", o:["Ctrl+I","Ctrl+U","Ctrl+B","Ctrl+P"], a:2},
+ {q:"Paste shortcut?", o:["Ctrl+P","Ctrl+V","Ctrl+C","Ctrl+X"], a:1},
+ {q:"Header/Footer used for?", o:["Images","Tables","Repeated info","Formatting"], a:2},
+ {q:"Replace tool does?", o:["Delete","Search only","Search & change","Format"], a:2},
+ {q:"Orientation option?", o:["Layout","Page Style","Page Orientation","View"], a:2},
+ {q:"Synonym tool?", o:["Spell","Auto","Thesaurus","Grammar"], a:2},
+ {q:"Undo shortcut?", o:["Ctrl+Z","Ctrl+Y","Ctrl+U","Ctrl+X"], a:0}
+];
+
+let index = 0;
+let answers = new Array(questions.length).fill(null);
+
+function loadQuestion() {
+    document.getElementById("questionText").innerText =
+        (index+1) + ". " + questions[index].q;
+
+    const optionsBox = document.getElementById("optionsBox");
+    optionsBox.innerHTML = "";
+
+    questions[index].o.forEach((opt, i) => {
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="radio" name="opt"> ${opt}`;
+        label.onclick = () => selectOption(i, label);
+        if (answers[index] !== null) {
+            if (i === questions[index].a)
+                label.classList.add("correct");
+            if (i === answers[index] && answers[index] !== questions[index].a)
+                label.classList.add("wrong");
+        }
+        optionsBox.appendChild(label);
+    });
+}
+
+function selectOption(i, label) {
+    answers[index] = i;
+    loadQuestion();
+}
+
+function nextQuestion() {
+    if (index < questions.length - 1) {
+        index++;
+        loadQuestion();
+    } else {
+        showScore();
+    }
+}
+
+function prevQuestion() {
+    if (index > 0) {
+        index--;
+        loadQuestion();
+    }
+}
+
+function showScore() {
+    let score = 0;
+    answers.forEach((ans, i) => {
+        if (ans === questions[i].a) score++;
+    });
+    document.getElementById("quizBox").style.display = "none";
+    const scoreBox = document.getElementById("scoreBox");
+    scoreBox.style.display = "block";
+    scoreBox.innerHTML = `🎯 Final Score: ${score} / ${questions.length}`;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
